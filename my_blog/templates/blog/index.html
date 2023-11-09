@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Publicaciones{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Publicaciones</h2>
+    {% if g.user %}
+        <a href="{{ url_for('blog.create') }}" class="btn btn-primary mb-3">Nueva Publicación</a>
+    {% endif %}
+
+    {% for post in posts %}
+    <article class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">{{ post.title }}</h2>
+            <div>
+                <p>{{ post.body }}</p>
+            </div>
+            <div class="about">
+                Publicado por {{ get_user(post.author).username }} el {{ post.dateTime.strftime('%Y-%m-%d') }}
+            </div>
+            <div class="text-right mt-3">
+                {% if g.user.id == post.author %}
+                    <a href="{{ url_for('blog.update', id=post.id) }}" class="btn btn-primary mr-2">Editar</a>
+                    <a href="{{ url_for('blog.delete', id=post.id) }}" class="btn btn-danger">Eliminar</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Comentarios -->
+        <div class="card-footer">
+            <h3>Comentarios:</h3>
+            <ul class="list-group">
+                {% for comment in post.comentarios %}
+                    <li class="list-group-item">
+                        <strong>{{ comment.autor.username }}</strong> dijo: {{ comment.texto }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Formulario de comentario si el usuario está autenticado -->
+        {% if g.user %}
+            <div class="card-footer">
+                <h3>Deja un comentario:</h3>
+                <form method="post" action="{{ url_for('blog.comment', id=post.id) }}">
+                    <div class="form-group">
+                        <textarea name="comment_text" class="form-control" placeholder="Escribe tu comentario aquí" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Comentar</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="card-footer">
+                <p>Debes iniciar sesión para dejar un comentario.</p>
+            </div>
+        {% endif %}
+    </article>
+    {% endfor %}
+</div>
+{% endblock %}

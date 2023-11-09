@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/icono.ico')}}" type="image/x-icon">
+    <title>{% block title %}{% endblock %} - SnakeBlog</title>
+</head>
+<body>
+    <header class="bg-success text-white py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="{{ url_for('blog.index') }}" class="text-white text-decoration-none">
+                    <h1>SnakeBlog</h1>
+                </a>
+                <nav>
+                    {% if g.user %}
+                        <span class="mr-2">¡Hola, {{ g.user.username }}!</span>
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-light">Cerrar Sesión</a>
+                    {% else %}
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-danger mr-2">Registrar Usuario</a>
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-light">Iniciar Sesión</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <header>
+                    {% block header %}{% endblock %}
+                </header>
+                
+                {% for message in get_flashed_messages() %}
+                    <div class="alert alert-info">{{ message }}</div>
+                {% endfor %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Enlaces a los archivos JavaScript de Bootstrap y jQuery -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</body>
+</html>

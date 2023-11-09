@@ -1,0 +1,18 @@
+version: '3'
+services:
+  web:
+    image: snake-blog
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./my_blog:/app/my_blog
+    environment:
+      - FLASK_ENV=development
+    # Otras configuraciones específicas de tu aplicación Flask
+
+  services:
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
