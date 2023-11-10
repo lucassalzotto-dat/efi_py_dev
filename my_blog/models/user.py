@@ -1,4 +1,5 @@
 from my_blog import db
+from my_blog.schemas.UserSchema import UserSchema
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -6,9 +7,10 @@ class User(db.Model):
     username = db.Column(db.String(50))
     password = db.Column(db.Text)
 
-    def __init__(self,username,password) -> None:
+    def __init__(self, username, password) -> None:
         self.username = username
         self.password = password
-        
-    def __repr__(self) -> str:
-        return f'User:{self.username}'        
+
+    def to_dict(self):
+        schema = UserSchema()
+        return schema.dump(self)

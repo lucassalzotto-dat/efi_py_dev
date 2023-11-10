@@ -1,5 +1,6 @@
 from datetime import datetime
 from my_blog import db
+from my_blog.schemas.PostSchema import PostSchema
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -9,10 +10,11 @@ class Post(db.Model):
     body = db.Column(db.Text)
     dateTime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-    def __init__(self,author,title, body) -> None:
+    def __init__(self, author, title, body) -> None:
         self.author = author
         self.title = title
         self.body = body
-        
-    def __repr__(self) -> str:
-        return f'Post:{self.title}'        
+
+    def to_dict(self):
+        schema = PostSchema()
+        return schema.dump(self)
