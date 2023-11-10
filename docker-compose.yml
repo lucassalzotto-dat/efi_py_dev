@@ -8,9 +8,8 @@ services:
       - ./my_blog:/app/my_blog
     environment:
       - FLASK_ENV=development
-    # Otras configuraciones específicas de tu aplicación Flask
+    
 
-  services:
   db:
     image: mysql:5.7
     environment:
