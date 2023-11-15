@@ -1,17 +1,18 @@
 version: '3'
 services:
   web:
-    image: snake-blog
+    image: snak-blog-efi
     ports:
       - "5000:5000"
     volumes:
       - ./my_blog:/app/my_blog
     environment:
       - FLASK_ENV=development
-    
 
   db:
     image: mysql:5.7
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=BD2021Itec
+      - MYSQL_DATABASE=blog_salzotto
+    ports:
+      - "3307:3306"
